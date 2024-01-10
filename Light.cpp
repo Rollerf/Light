@@ -14,7 +14,7 @@ void Light::begin()
     pinMode(_pin, OUTPUT);
     digitalWrite(_pin, HIGH);
     _state = false;
-    _manual = false;
+    _automatic = false;
     tLightOn = new TON(240000);
 }
 
@@ -42,19 +42,19 @@ bool Light::getState()
     return _state;
 }
 
-void Light::turnOnManual()
+void Light::turnOnAutomatic()
 {
-    _manual = true;
+    _automatic = true;
 }
 
-void Light::turnOffManual()
+void Light::turnOffAutomatic()
 {
-    _manual = false;
+    _automatic = false;
 }
 
-bool Light::isManual()
+bool Light::isAutomatic()
 {
-    return _manual;
+    return _automatic;
 }
 
 bool Light::isOn()
@@ -64,9 +64,19 @@ bool Light::isOn()
 
 void Light::manageLightState()
 {
-    if (!_manual && tLightOn->IN(true))
+    if (_automatic && tLightOn->IN(true))
     {
         turnOff();
         tLightOn->IN(false);
     }
+}
+
+void Light::manageLightStateWithExternalCondition(bool externalCondition)
+{
+    if (_automatic && externalCondition)
+    {
+        return turnOn();
+    }
+
+    return turnOff();
 }

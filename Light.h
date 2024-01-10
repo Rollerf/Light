@@ -3,7 +3,7 @@ class Light
 private:
     bool _state;
     unsigned char _pin;
-    char _manual;
+    bool _automatic;
     unsigned long _timer;
 public:
     Light(unsigned char pin);
@@ -12,9 +12,10 @@ public:
     void turnOnWithTimer();
     void turnOff();
     bool getState();
-    void turnOnManual();
-    void turnOffManual();
-    bool isManual();
+    void turnOnAutomatic();
+    void turnOffAutomatic();
+    bool isAutomatic();
     bool isOn();
     void manageLightState();
+    void manageLightStateWithExternalCondition(bool externalCondition);
 };
